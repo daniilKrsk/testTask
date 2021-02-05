@@ -19,18 +19,30 @@ type
     procedure SetPrevSibling(const Value: TTreeObject);
     function GetLastChild: TTreeObject;
   public
+    // Инфомрация в узле
     Info: string;
     procedure Extract;
-    constructor Create; 
+
+    constructor Create;
+    // создать дочерний элемент
     function CreateChild(AInfo: string = 'n'): TTreeObject;
+    // Генерация примера
     procedure AddSample(ALevel, ACnt: integer);
+    // Вывод дерева
     procedure PrintTree(ALevel: integer = 0);
+    // Родитель
     property Parent: TTreeObject read FParent write SetParent;
+    // Следующий узел на мойм уровне
     property NextSibling: TTreeObject read FNextSibling write SetNextSibling;
+    // Предыдущий узел на моем уровне
     property PrevSibling: TTreeObject read FPrevSibling write SetPrevSibling;
+    // Последний ребенок
     property LastChild: TTreeObject read GetLastChild;
+    // Первый ребенок
     property FirstChild: TTreeObject read FFirstChild write SetFirstChild;
+    // Полезная нагрузка
     property Data: TObject read FData write SetData;
+    
     destructor Destroy; override;
   end;
 
@@ -44,7 +56,7 @@ var
 begin
   if(ALevel > 0) then
     for i := 1 to ACnt do
-      CreateChild(Format('lvl:%d, n:%d', [ALevel, i]));//.AddSample(ALevel - 1, ACnt);
+      CreateChild(Format('lvl:%d, n:%d', [ALevel, i])).AddSample(ALevel - 1, ACnt);
 end;
 
 constructor TTreeObject.Create;
@@ -54,7 +66,7 @@ begin
   FirstChild := nil;
   FParent := nil;
   
-  Info := 'N';
+  Info := '';
 end;
 
 function TTreeObject.CreateChild(AInfo: string): TTreeObject;
@@ -120,15 +132,13 @@ begin
 
   WriteLn(str + '>'+ Info);
 
+  ANode := self.FirstChild;
   if Assigned(FirstChild) then
-    FirstChild.PrintTree(ALevel + 1);
-  
-  ANode := self.NextSibling;
-  while ANode <> nil do
-  begin
-    ANode.PrintTree(ALevel);
-    ANode := ANode.NextSibling;
-  end;
+    while ANode <> nil do
+    begin
+      ANode.PrintTree(ALevel + 1);
+      ANode := ANode.NextSibling;
+    end;
 end;
 
 procedure TTreeObject.SetData(const Value: TObject);

@@ -30,19 +30,8 @@ begin
   tc := TTreeContainer.Create;
   try
     Node := tc.Root;
-    Node.AddSample(1, 3); // 10 уровней по 2 узла
+    Node.AddSample(3, 2); // 5 уровней по 2 узла
 
-  { n1 := Node.CreateChild('1');
-
-   n1.CreateChild('2');
-   n1.CreateChild('3');
-   {
-    n2.Info := '-1';
-    n1.CreateChild.Info := '-2';
-
-    n2.CreateChild.Info := 'n2-1';
-    n2.CreateChild.Info := 'n2-1';
-   }
     tc.Root.PrintTree();
 
    writeln('');
